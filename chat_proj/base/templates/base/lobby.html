@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% extends 'base/main.html' %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+    {% block content %}
+    <main>
+        <section id="form-container">
+            <img id="logo" src="{% static 'images/appicon.png' %}" alt="chat app icon">
+
+            <div id="welcome-message">
+                <h1>Welcome to VChat</h1>
+                <p>A group video chatting application for the masses</p>
+            </div>
+            <form id="form" action="">
+                <div class="form-field">
+                    <input type="text" name="channel" placeholder="Enter Channel Name.." style="text-transform:uppercase;">
+                </div>
+
+                <div class="form-field">
+                    <input type="text" name="uname" placeholder="Enter Your Name.." style="text-transform:uppercase;">
+                </div>
+
+                <div class="form-field">
+                    <input id="subbtn" type="submit" value="Join Channel" style="background-color:rgba(8, 143, 143,1) ;
+                    color:  whitesmoke;
+                    border: none;
+                    font-family: 'Roboto Mono', monospace;">
+                </div>
+            </form>
+        </section>
+    
+
+
+    </main>
+
+    <script>
+        let form=document.getElementById("form");
+
+        let handleSub= async(e)=> {
+            e.preventDefault()
+            let chname=e.target.channel.value.toUpperCase()
+            let user=e.target.uname.value
+
+            let response= await fetch(`/gen-token/?channel=${chname}`)
+            let data=await response.json()
+
+            let UID=data.uid
+            let token=data.token
+            
+            sessionStorage.setItem('UID',UID)
+            sessionStorage.setItem('token',token)
+            sessionStorage.setItem('chname',chname)
+            sessionStorage.setItem('user',user)
+
+            window.open('/room/','_self')
+        }
+
+        form.addEventListener('submit', handleSub);
+    </script>
+    {% endblock content %}
+    
+</body>
+</html>
