@@ -1,4 +1,4 @@
-const APP_ID= '1645ac159a954c769319bd954140c503'
+const APP_ID= '<enter-your-own-app-id>'
 const CHANNEL=sessionStorage.getItem('chname')
 
 const TOKEN=sessionStorage.getItem('token')
